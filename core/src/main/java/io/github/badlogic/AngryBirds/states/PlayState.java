@@ -1,6 +1,7 @@
 package io.github.badlogic.AngryBirds.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -43,6 +44,12 @@ public class PlayState extends state{
         sb.draw(bird,80,80, 50,50);
         sb.draw(pauseButtonTexture,790,510);
         sb.end();
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            this.gsm.set(new WinState(this.gsm));;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.L)) {
+            this.gsm.set(new LoseState(this.gsm));;
+        }
     }
 
     @Override

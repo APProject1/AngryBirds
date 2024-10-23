@@ -14,7 +14,7 @@ public class MenuState extends state{
     private Texture saveButtonText;
     private Rectangle savedBtn;
     private Texture logo;
-    private ShapeRenderer shape;
+    //private ShapeRenderer shape;
 
     public MenuState(GameStateManager gsm) {
         super(gsm);
@@ -24,7 +24,7 @@ public class MenuState extends state{
         logo=new Texture("logo1.png");
         playButton= new Rectangle(450-(playButtonTexture.getWidth()/2),250,50,50);
         savedBtn=new Rectangle(450-(saveButtonText.getWidth()/2),350, playButtonTexture.getWidth(), playButtonTexture.getHeight());
-        shape=new ShapeRenderer();
+        //shape=new ShapeRenderer();
 
     }
 

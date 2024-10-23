@@ -1,6 +1,7 @@
 package io.github.badlogic.AngryBirds.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -58,6 +59,7 @@ public class PauseState extends state{
         font1.draw(sb,"Save Game",350,280);
         font2.draw(sb,"GAME PAUSED",240,500);
         sb.end();
+
 
         //shape.begin(ShapeRenderer.ShapeType.Line);
         //shape.setColor(1, 0, 0, 1);
