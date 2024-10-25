@@ -34,7 +34,7 @@ public class MenuState extends state{
             float touchX=Gdx.input.getX();
             float touchY=Gdx.input.getY();
             if(playButton.contains(touchX,touchY)){
-                this.gsm.set(new PlayState(this.gsm));
+                this.gsm.set(new LevelSelectState(this.gsm));
                 dispose();
             }else if(savedBtn.contains(touchX,touchY)){
                 this.gsm.set(new SavedGamesState(this.gsm));

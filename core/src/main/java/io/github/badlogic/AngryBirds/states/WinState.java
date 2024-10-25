@@ -14,17 +14,21 @@ public class WinState extends state{
     private Texture congrats;
     private Rectangle homeButton;
     private Rectangle exitButton;
+    private Rectangle nextLevelButton;
     //private ShapeRenderer shape;
     private BitmapFont font1;
+    int level;
 
 
-    public WinState(GameStateManager gsm){
+    public WinState(GameStateManager gsm,int level){
         super(gsm);
         background= new Texture("bg.png");
         congrats=new Texture("congrats.png");
         font1=new BitmapFont(Gdx.files.internal("font3.fnt"));
         homeButton=new Rectangle(300,300,250,50);
         exitButton=new Rectangle(300,180,100,50);
+        nextLevelButton=new Rectangle(300,240,300,50);
+        this.level=level;
         //shape=new ShapeRenderer();
     }
 
@@ -36,6 +40,15 @@ public class WinState extends state{
             System.out.println("Touch coordinates: " + touchX + ", " + touchY);
             if(homeButton.contains(touchX,touchY)) {
                 this.gsm.set(new MenuState(this.gsm));
+                dispose();
+            }
+            if(nextLevelButton.contains(touchX,touchY)) {
+                if (level==1){
+                    this.gsm.set(LevelSelectState.level2setup(gsm));}
+                if (level==2){
+                    this.gsm.set(LevelSelectState.level3setup(gsm));}
+                if (level==3){
+                    this.gsm.set(new MenuState(gsm));}
                 dispose();
             }
             if(exitButton.contains(touchX,touchY)) {

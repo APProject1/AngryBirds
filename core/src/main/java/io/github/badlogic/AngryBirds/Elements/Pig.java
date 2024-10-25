@@ -3,10 +3,12 @@ package io.github.badlogic.AngryBirds.Elements;
 import com.badlogic.gdx.graphics.Texture;
 
 public abstract class Pig {
-    protected float x;
-    protected float y;
-    protected Texture texture;
-    protected int health;
+    public float x;
+    public float y;
+    public Texture texture;
+    public int health;
+    public int height;
+    public int width;
 
     public Pig(float x, float y, String texture, int health) {
         this.x = x;

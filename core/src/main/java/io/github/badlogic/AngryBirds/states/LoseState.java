@@ -17,9 +17,10 @@ public class LoseState extends state{
     //private ShapeRenderer shape;
     private BitmapFont font1;
     private BitmapFont font2;
+    int level;
 
 
-    public LoseState(GameStateManager gsm){
+    public LoseState(GameStateManager gsm,int level){
         super(gsm);
         background= new Texture("bg.png");
         font1=new BitmapFont(Gdx.files.internal("font3.fnt"));
@@ -28,6 +29,7 @@ public class LoseState extends state{
         replayButton=new Rectangle(300,240,150,50);
         //shape=new ShapeRenderer();
         font2=new BitmapFont(Gdx.files.internal("font3.fnt"));
+        this.level=level;
 
     }
 
@@ -42,7 +44,12 @@ public class LoseState extends state{
                 dispose();
             }
             if(replayButton.contains(touchX,touchY)) {
-                this.gsm.set(new PlayState(this.gsm));
+                if (level==1){
+                    this.gsm.set(LevelSelectState.level1setup(gsm));}
+                if (level==2){
+                    this.gsm.set(LevelSelectState.level2setup(gsm));}
+                if (level==3){
+                    this.gsm.set(LevelSelectState.level3setup(gsm));}
                 dispose();
             }
             if(exitButton.contains(touchX,touchY)) {

@@ -3,10 +3,12 @@ package io.github.badlogic.AngryBirds.Elements;
 import com.badlogic.gdx.graphics.Texture;
 
 public abstract class Block {
-    protected float x;
-    protected float y;
-    protected Texture texture;
-    protected int health;
+    public float x;
+    public float y;
+    public Texture texture;
+    public int height;
+    public int width;
+    public int health;
 
     public Block(float x, float y, String texture, int health) {
         this.x=x;

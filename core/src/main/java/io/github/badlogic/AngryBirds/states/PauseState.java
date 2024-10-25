@@ -17,9 +17,10 @@ public class PauseState extends state{
     private Texture saveBtnText;
     private Rectangle continueBtn;
     private Rectangle saveBtn;
+    Level level;
     //private ShapeRenderer shape;
 
-    public PauseState(GameStateManager gsm){
+    public PauseState(GameStateManager gsm, Level level){
         super(gsm);
         background= new Texture("bg.png");
         font1=new BitmapFont(Gdx.files.internal("font3.fnt"));
@@ -27,6 +28,7 @@ public class PauseState extends state{
         continuebtnText= new Texture("play1btn.png");
         saveBtnText =new Texture("savebtn.png");
         continueBtn=new Rectangle(290,310,310,40);
+        this.level=level;
         //shape=new ShapeRenderer();
     }
 
@@ -36,7 +38,7 @@ public class PauseState extends state{
             float touchX=Gdx.input.getX();
             float touchY=Gdx.graphics.getHeight() - Gdx.input.getY();
             if(continueBtn.contains(touchX,touchY)) {
-                this.gsm.set(new PlayState(this.gsm));
+                this.gsm.set(level);
                 dispose();
             }
         }
