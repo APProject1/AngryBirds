@@ -19,7 +19,7 @@ public class LevelSelectState extends state{
     private Rectangle level2Button;
     private Rectangle level3Button;
     protected ArrayList<Level> levels;
-    private ShapeRenderer shape;
+    //private ShapeRenderer shape;
     private BitmapFont font1;
     private Texture back;
     private Rectangle backButton;
@@ -40,7 +40,7 @@ public class LevelSelectState extends state{
         levels.add(level1setup(gsm));
         levels.add(level2setup(gsm));
         levels.add(level3setup(gsm));
-        shape=new ShapeRenderer();
+        //shape=new ShapeRenderer();
 
     }
     static public Level level1setup(GameStateManager gsm){
@@ -149,10 +149,10 @@ public class LevelSelectState extends state{
         font1.getData().setScale(1.2f);
         font1.draw(sb,"CHOOSE LEVEL",230,540);
         sb.end();
-        shape.begin(ShapeRenderer.ShapeType.Line);
-        shape.setColor(1, 0, 0, 1);
-        shape.rect(backButton.x, backButton.y, backButton.width, backButton.height);
-        shape.end();
+        //shape.begin(ShapeRenderer.ShapeType.Line);
+        //shape.setColor(1, 0, 0, 1);
+        //shape.rect(backButton.x, backButton.y, backButton.width, backButton.height);
+        //shape.end();
     }
 
     @Override

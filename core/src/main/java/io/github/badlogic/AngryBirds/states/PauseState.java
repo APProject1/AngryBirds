@@ -1,12 +1,10 @@
 package io.github.badlogic.AngryBirds.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
 import java.awt.*;
 
 public class PauseState extends state{
@@ -15,8 +13,10 @@ public class PauseState extends state{
     private BitmapFont font2;
     private Texture continuebtnText;
     private Texture saveBtnText;
+    private Texture homeBtnText;
     private Rectangle continueBtn;
     private Rectangle saveBtn;
+    private Rectangle homeBtn;
     Level level;
     //private ShapeRenderer shape;
 
@@ -27,9 +27,13 @@ public class PauseState extends state{
         font2=new BitmapFont(Gdx.files.internal("font3.fnt"));
         continuebtnText= new Texture("play1btn.png");
         saveBtnText =new Texture("savebtn.png");
+        homeBtnText =new Texture("home.png");
         continueBtn=new Rectangle(290,310,310,40);
+        saveBtn=new Rectangle(290,250,200,45);
+        homeBtn=new Rectangle(350,200,80,40);
         this.level=level;
         //shape=new ShapeRenderer();
+
     }
 
     @Override
@@ -40,6 +44,12 @@ public class PauseState extends state{
             if(continueBtn.contains(touchX,touchY)) {
                 this.gsm.set(level);
                 dispose();
+            }
+            if(saveBtn.contains(touchX,touchY)){
+                this.gsm.set(new SavedGamesState(gsm));
+            }
+            if(homeBtn.contains(touchX,touchY)){
+                this.gsm.set(new MenuState(gsm));
             }
         }
     }
@@ -55,11 +65,13 @@ public class PauseState extends state{
         sb.draw(background,0,0,900,600);
         sb.draw(continuebtnText,290,310,45,45);
         sb.draw(saveBtnText,290,250,45,45);
+        sb.draw(homeBtnText,290,190,45,45);
         font1.getData().setScale(0.5f);
         font2.getData().setScale(1.2f);
         font1.draw(sb,"Continue Playing",350,340);
         font1.draw(sb,"Save Game",350,280);
         font2.draw(sb,"GAME PAUSED",240,500);
+        font1.draw(sb,"Go To Home",350,220);
         sb.end();
 
 
