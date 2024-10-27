@@ -95,16 +95,20 @@ public class LevelSelectState extends state{
         birds.add(new BlackBird(143,252));
         birds.add(new BlackBird(40,130));
         birds.add(new YellowBird(85,130));
-        blocks.add(new WoodBlock(652,130,70,70));
-        blocks.add(new WoodBlock(788,130,70,70));
-        blocks.add(new WoodBlock(684,200,70,70));
-        blocks.add(new WoodBlock(754,200,70,70));
-        blocks.add(new WoodBlock(717,270,70,70));
-        pigs.add(new MediumPig(730,130));
-        pigs.add(new SmallPig(645,200));
-        pigs.add(new SmallPig(825,200));
-        pigs.add(new SmallPig(730,275));
-        pigs.add(new KingPig(720,338));
+        blocks.add(new WoodBlock(682,130,110,110));
+        blocks.add(new StoneBlock(792,130,70,40));
+        blocks.add(new StoneBlock(642,130,70,40));
+        blocks.add(new GlassBlock(792,200,40,40));
+        blocks.add(new GlassBlock(642,200,40,40));
+        blocks.add(new StoneBlock(767,240,60,20));
+        blocks.add(new StoneBlock(687,240,60,20));
+        blocks.add(new WoodBlock(695,300,80,80));
+        pigs.add(new MediumPig(710,240));
+        pigs.add(new SmallPig(642,240));
+        pigs.add(new SmallPig(792,240));
+        pigs.add(new MediumPig(707,307));
+        pigs.add(new SmallPig(712,380));
+        pigs.add(new KingPig(703,140));
         Level level=new Level(gsm,3,birds,pigs,blocks,"level2bg.png");
         return level;
     }
@@ -154,6 +158,8 @@ public class LevelSelectState extends state{
         //shape.rect(backButton.x, backButton.y, backButton.width, backButton.height);
         //shape.end();
     }
+
+
 
     @Override
     public void dispose() {
