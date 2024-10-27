@@ -1,33 +1,23 @@
-# AngryBirds
+Setup and Run Instructions
+- Prerequisites-
+1. Java Development Kit (JDK): JDK 22 is used in this project
+2. LibGDX Project Setup: The project should be structured according to LibGDX conventions and requires a Gradle build system.
 
-A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
+Run Configuration- 
+- Main class is set as the primary ApplicationAdapter.
+- Main class: io.github.badlogic.AngryBirds.Main
+- The program should start running from: AngryBirds.lwjgl3.main
+- Launcher: io.github.badlogic.AngryBirds.lwjgl3.Lwjgl3Launcher
 
-This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
+Assumptions-
+- The game is designed to fit aspect ratio of 900x600 in windowed mode at the moment. After scaling the window or in Fullscreen, the game will stretch to fit the screen but functionality may be affected.
+- The class state is used for making different screens and a game state manager implementing  stack is used to keep track of instances of different states.
+- In the SavedGameState, click on a saved game leads to a dummy state called LoadSavedGameState which is yet to be implemented.
+- Instead of using class Button for creating buttons, inputs have been handled manually using Rectangle and Textures.
 
-## Platforms
 
-- `core`: Main module with the application logic shared by all platforms.
-- `lwjgl3`: Primary desktop platform using LWJGL3; was called 'desktop' in older docs.
-
-## Gradle
-
-This project uses [Gradle](https://gradle.org/) to manage dependencies.
-The Gradle wrapper was included, so you can run Gradle tasks using `gradlew.bat` or `./gradlew` commands.
-Useful Gradle tasks and flags:
-
-- `--continue`: when using this flag, errors will not stop the tasks from running.
-- `--daemon`: thanks to this flag, Gradle daemon will be used to run chosen tasks.
-- `--offline`: when using this flag, cached dependency archives will be used.
-- `--refresh-dependencies`: this flag forces validation of all dependencies. Useful for snapshot versions.
-- `build`: builds sources and archives of every project.
-- `cleanEclipse`: removes Eclipse project data.
-- `cleanIdea`: removes IntelliJ project data.
-- `clean`: removes `build` folders, which store compiled classes and built archives.
-- `eclipse`: generates Eclipse project data.
-- `idea`: generates IntelliJ project data.
-- `lwjgl3:jar`: builds application's runnable jar, which can be found at `lwjgl3/build/libs`.
-- `lwjgl3:run`: starts the application.
-- `test`: runs unit tests (if any).
-
-Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
-For example, `core:clean` removes `build` folder only from the `core` project.
+Working-
+- The game has a class Main that implements Class ApplicationAdaptor which in turn implements lwjgl3 module to launch and run the game.
+- A package states is created for all the states/screens used in the game. The class state is used for making different screens and a game state manager implementing stack is used to keep track of instances of different states, which is used to jump between different states/screens.
+- Several states are created MenuState for home/main menu, pause state, Level select state, win state, lose state.
+- There is a LevelSelectState state that holds a list of levels and has methods that are used to setup those levels in the list in the constructor, and GUI input is used to play a certain level. Currently only 3 levels are implemented with no movement of elements implemented yet.
