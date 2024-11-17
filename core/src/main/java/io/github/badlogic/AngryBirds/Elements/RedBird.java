@@ -8,7 +8,4 @@ public class RedBird extends Bird{
 
     }
 
-    @Override
-    public void launch() {
-    }
 }

@@ -7,8 +7,4 @@ public class YellowBird extends Bird{
         height=40;
         width=45;
     }
-
-    @Override
-    public void launch() {
-    }
 }

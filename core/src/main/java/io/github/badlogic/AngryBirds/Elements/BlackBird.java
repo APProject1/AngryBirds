@@ -7,7 +7,4 @@ public class BlackBird extends Bird{
         width=40;
     }
 
-    @Override
-    public void launch() {
-    }
 }
