@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import io.github.badlogic.AngryBirds.Elements.*;
 
 import java.awt.*;
@@ -44,72 +46,75 @@ public class LevelSelectState extends state{
 
     }
     static public Level level1setup(GameStateManager gsm){
+        World world=new World(new Vector2(0,-20),true);
         ArrayList<Bird> birds=new ArrayList<>();
         ArrayList<Block> blocks=new ArrayList<>();
         ArrayList<Pig> pigs=new ArrayList<>();
-        birds.add(new RedBird(143,252));
-        birds.add(new RedBird(40,130));
-        birds.add(new BlackBird(85,130));
-        blocks.add(new WoodBlock(652,130,70,70));
-        blocks.add(new WoodBlock(788,130,70,70));
-        blocks.add(new WoodBlock(684,200,70,70));
-        blocks.add(new WoodBlock(754,200,70,70));
-        blocks.add(new WoodBlock(717,270,70,70));
+        birds.add(new RedBird(world,163,252));
+        birds.add(new RedBird(world,50,130));
+        birds.add(new BlackBird(world,95,130));
+        blocks.add(new WoodBlock(world,652,160,70,70));
+        blocks.add(new WoodBlock(world,788,160,70,70));
+        blocks.add(new WoodBlock(world,684,230,70,70));
+        blocks.add(new WoodBlock(world,754,230,70,70));
+        blocks.add(new WoodBlock(world,717,300,70,70));
         pigs.add(new MediumPig(730,130));
         pigs.add(new SmallPig(645,200));
         pigs.add(new SmallPig(825,200));
         pigs.add(new SmallPig(730,275));
         pigs.add(new KingPig(720,338));
-        Level level=new Level(gsm,1,birds,pigs,blocks,"level1bg.png");
+        Level level=new Level(world,gsm,1,birds,pigs,blocks,"level1bg.png");
         return level;
     }
     static public Level level2setup(GameStateManager gsm){
+        World world=new World(new Vector2(0,-20),true);
         ArrayList<Bird> birds=new ArrayList<>();
         ArrayList<Block> blocks=new ArrayList<>();
         ArrayList<Pig> pigs=new ArrayList<>();
-        birds.add(new YellowBird(143,252));
-        birds.add(new YellowBird(40,130));
-        birds.add(new RedBird(85,130));
-        blocks.add(new StoneBlock(637,130,70,50));
-        blocks.add(new GlassBlock(647,200,70,30));
-        blocks.add(new WoodBlock(707,130,70,70));
-        blocks.add(new WoodBlock(707,200,70,70));
-        blocks.add(new WoodBlock(707,270,70,70));
-        blocks.add(new StoneBlock(792,130,70,50));
-        blocks.add(new GlassBlock(802,200,70,30));
-        blocks.add(new WoodBlock(572,130,50,50));
-        blocks.add(new WoodBlock(842,130,50,50));
+        birds.add(new YellowBird(world,143,252));
+        birds.add(new YellowBird(world,40,130));
+        birds.add(new RedBird(world,85,130));
+        blocks.add(new StoneBlock(world,637,160,70,50));
+        blocks.add(new GlassBlock(world,647,230,70,30));
+        blocks.add(new WoodBlock(world,707,160,70,70));
+        blocks.add(new WoodBlock(world,707,230,70,70));
+        blocks.add(new WoodBlock(world,707,300,70,70));
+        blocks.add(new StoneBlock(world,792,160,70,50));
+        blocks.add(new GlassBlock(world,802,230,70,30));
+        blocks.add(new WoodBlock(world,572,160,50,50));
+        blocks.add(new WoodBlock(world,842,160,50,50));
         pigs.add(new SmallPig(800,270));
         pigs.add(new SmallPig(645,270));
         pigs.add(new SmallPig(720,135));
         pigs.add(new SmallPig(720,275));
         pigs.add(new KingPig(710,338));
         pigs.add(new MediumPig(715,205));
-        Level level=new Level(gsm,2,birds,pigs,blocks,"level2bg.png");
+        Level level=new Level(world,gsm,2,birds,pigs,blocks,"level2bg.png");
         return level;
     }
     static public Level level3setup(GameStateManager gsm){
+        World world=new World(new Vector2(0,-20),true);
         ArrayList<Bird> birds=new ArrayList<>();
         ArrayList<Block> blocks=new ArrayList<>();
         ArrayList<Pig> pigs=new ArrayList<>();
-        birds.add(new BlackBird(143,252));
-        birds.add(new BlackBird(40,130));
-        birds.add(new YellowBird(85,130));
-        blocks.add(new WoodBlock(682,130,110,110));
-        blocks.add(new StoneBlock(792,130,70,40));
-        blocks.add(new StoneBlock(642,130,70,40));
-        blocks.add(new GlassBlock(792,200,40,40));
-        blocks.add(new GlassBlock(642,200,40,40));
-        blocks.add(new StoneBlock(767,240,60,20));
-        blocks.add(new StoneBlock(687,240,60,20));
-        blocks.add(new WoodBlock(695,300,80,80));
+        birds.add(new BlackBird(world,143,252));
+        birds.add(new BlackBird(world,40,130));
+        birds.add(new YellowBird(world,85,130));
+        blocks.add(new WoodBlock(world,682,180,110,110));
+        blocks.add(new StoneBlock(world,792,180,70,40));
+        blocks.add(new StoneBlock(world,642,180,70,40));
+        blocks.add(new GlassBlock(world,792,250,40,40));
+        blocks.add(new GlassBlock(world,642,250,40,40));
+        blocks.add(new StoneBlock(world,767,250,60,20));
+        blocks.add(new StoneBlock(world,687,250,60,20));
+        blocks.add(new WoodBlock(world,695,350,80,80));
         pigs.add(new MediumPig(710,240));
         pigs.add(new SmallPig(642,240));
         pigs.add(new SmallPig(792,240));
         pigs.add(new MediumPig(707,307));
         pigs.add(new SmallPig(712,380));
         pigs.add(new KingPig(703,140));
-        Level level=new Level(gsm,3,birds,pigs,blocks,"level2bg.png");
+        Level level=new Level(world,gsm,3,birds,pigs,blocks,"level2bg.png");
         return level;
     }
     @Override

@@ -1,9 +1,11 @@
 package io.github.badlogic.AngryBirds.Elements;
 
+import com.badlogic.gdx.physics.box2d.World;
+
 public class YellowBird extends Bird{
 
-    public YellowBird(float x, float y) {
-        super(x,y,"yellowbird.png");
+    public YellowBird(World world, float x, float y) {
+        super(world,x,y,"yellowbird.png");
         height=40;
         width=45;
     }

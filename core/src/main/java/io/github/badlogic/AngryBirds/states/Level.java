@@ -31,14 +31,15 @@ public class Level extends state{
     private Vector2 rightstartpos;
     private Bird flyingBird;
     int level;
-    //private World world;
+    private World world;
     private ShapeRenderer shapeRenderer;
     private Box2DDebugRenderer debugRenderer;
     OrthographicCamera camera;
     public static Vector2 gravity=new Vector2(0,-9.8f);
     private int time;
 
-    public Level(GameStateManager gsm,int num,ArrayList<Bird> birds,ArrayList<Pig> pigs,ArrayList<Block> blocks,String texture) {
+
+    public Level(World world,GameStateManager gsm,int num,ArrayList<Bird> birds,ArrayList<Pig> pigs,ArrayList<Block> blocks,String texture) {
         super(gsm);
         background=new Texture(texture);
         this.birds = birds;
@@ -55,13 +56,15 @@ public class Level extends state{
         shapeRenderer=new ShapeRenderer();
         leftstartpos=new Vector2(145,270);
         rightstartpos=new Vector2(190,270);
-        //world = new World(new Vector2(0, -9.8f), true);
+        this.world=world;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 1200, 800);  // Set the camera size
+        camera.setToOrtho(false, 900, 600);  // Set the camera size
         camera.update();
         // Debug renderer (to visualize Box2D bodies)
         debugRenderer = new Box2DDebugRenderer();
         time=0;
+        createGround();
+        createSlingshot();
 
         // Place the first bird on the slingshot
         if (!birds.isEmpty()) {
@@ -69,6 +72,7 @@ public class Level extends state{
             activeBird.x = slingCenter.x;
             activeBird.y = slingCenter.y;
         }
+
 
 
     }
@@ -91,7 +95,6 @@ public class Level extends state{
         }
         if (Gdx.input.isTouched()){
             if (isDragging){
-                System.out.println("");
                 float dragX = Gdx.input.getX();
                 float dragY = Gdx.graphics.getHeight() - Gdx.input.getY();
                 Vector2 dragPosition = new Vector2(dragX, dragY);
@@ -100,10 +103,13 @@ public class Level extends state{
                     dragVector.nor().scl(maxStretch);
                 }
                 slingPullPosition.set(slingCenter.cpy().add(dragVector));
-                activeBird.x = slingPullPosition.x - activeBird.width / 2;
-                activeBird.y = slingPullPosition.y - activeBird.height / 2;
+                activeBird.body.setTransform(
+                    (slingPullPosition.x-activeBird.width/2f) ,
+                    (slingPullPosition.y-activeBird.height/2f) ,
+                    activeBird.body.getAngle() // Retain the current rotation angle
+                );
                 // Update bird's position
-                /*
+
                 System.out.println("Rendering slingshot lines...");
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
@@ -117,17 +123,21 @@ public class Level extends state{
 
                 // End drawing lines
                 shapeRenderer.end();
-                //drawSlingshot();*/
+                //drawSlingshot();
             }
         }
         if (!Gdx.input.isTouched() && isDragging){
             isDragging = false;
             time=0;
             // Calculate launch direction and force
-            Vector2 launchDirection = slingCenter.cpy().sub(slingPullPosition).nor();
-            float force = slingCenter.dst(slingPullPosition) / maxStretch * 10; // Adjust force scaling
-            activeBird.velocity.x=launchDirection.x*force;
-            activeBird.velocity.y=launchDirection.y*force;
+            Vector2 launchForce = slingCenter.cpy().sub(slingPullPosition);
+            launchForce.x*=100000;
+            launchForce.y*=100000;
+            //float force = slingCenter.dst(slingPullPosition) / maxStretch * 2; // Adjust force scaling
+            //activeBird.body.setLinearVelocity(launchForce);
+            activeBird.body.applyLinearImpulse(launchForce, activeBird.body.getWorldCenter(), true);
+            //activeBird.velocity.x=launchDirection.x*force;
+            //activeBird.velocity.y=launchDirection.y*force;
             //activeBird.launch(launchDirection.scl(force)); // Launch the bird
             //activeBird = null; // Remove the bird from the slingshot
 
@@ -162,23 +172,27 @@ public class Level extends state{
 
     @Override
     public void render(SpriteBatch sb) {
+        world.step(1/60f, 6, 2);
+        sb.setProjectionMatrix(camera.combined);
+        Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
         sb.begin();
         sb.draw(background,0,-60,1200,800);
         sb.draw(pauseButtonTexture,790,510);
         sb.draw(slingright,160,130,40,160);
         for (Bird bird:birds){
-            sb.draw(bird.texture,bird.x,bird.y,bird.width,bird.height);
+            sb.draw(bird.texture,bird.body.getPosition().x-bird.width/2f,bird.body.getPosition().y,bird.width,bird.height);
         }
         if (flyingBird!=null){
-            sb.draw(flyingBird.texture,flyingBird.x,flyingBird.y,flyingBird.width,flyingBird.height);
+            sb.draw(flyingBird.texture,flyingBird.body.getPosition().x-flyingBird.width,flyingBird.body.getPosition().y,flyingBird.width,flyingBird.height);
+            /*
             time+=1;
             flyingBird.velocity.y+=gravity.y*time/20000;
             flyingBird.x+=flyingBird.velocity.x*time/100;
-            flyingBird.y+=flyingBird.velocity.y*time/100;
+            flyingBird.y+=flyingBird.velocity.y*time/100;*/
 
         }
         for (Block block:blocks){
-            sb.draw(block.texture,block.x,block.y,block.width,block.height);
+            sb.draw(block.texture,block.body.getPosition().x-block.width/2f,block.body.getPosition().y-block.height/2f,block.width,block.height);
         }
         for (Pig pig:pigs){
             sb.draw(pig.texture,pig.x,pig.y,pig.width,pig.height);
@@ -199,6 +213,7 @@ public class Level extends state{
         }
 
         shapeRenderer.end();
+        debugRenderer.render(world, camera.combined);
     }
     /*
     public void drawSlingshot(){
@@ -222,7 +237,54 @@ public class Level extends state{
         // End drawing lines
         shapeRenderer.end();
     }*/
+    private void createGround() {
+        // Define a static body for the ground
+        BodyDef groundBodyDef = new BodyDef();
+        groundBodyDef.position.set(50, 60); // Set the ground's position (centered)
+        groundBodyDef.type = BodyDef.BodyType.StaticBody;
+        // Create the ground body in the world
+        Body groundBody =this.world.createBody(groundBodyDef);
 
+        // Define the shape of the ground
+        PolygonShape groundShape = new PolygonShape();
+        groundShape.setAsBox(800, 70); // Half-width and half-height of the ground
+
+        // Create a fixture and attach the shape to the ground body
+        FixtureDef groundFixtureDef = new FixtureDef();
+        groundFixtureDef.shape = groundShape;
+        groundFixtureDef.friction = 0.5f; // Adjust friction as needed
+        groundFixtureDef.restitution = 0f; // No bounce for the ground
+
+        groundBody.createFixture(groundFixtureDef);
+
+        // Dispose of the shape
+        groundShape.dispose();
+    }
+    private void createSlingshot() {
+        // Left arm of the slingshot
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.position.set(170, 150); // Set the ground's position (centered)
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        // Create the ground body in the world
+        Body groundBody =this.world.createBody(bodyDef);
+
+        // Define the shape of the ground
+        PolygonShape groundShape = new PolygonShape();
+        groundShape.setAsBox(20, 70); // Half-width and half-height of the ground
+
+        // Create a fixture and attach the shape to the ground body
+        FixtureDef groundFixtureDef = new FixtureDef();
+        groundFixtureDef.shape = groundShape;
+        groundFixtureDef.friction = 0.5f; // Adjust friction as needed
+        groundFixtureDef.restitution = 0f; // No bounce for the ground
+
+        groundBody.createFixture(groundFixtureDef);
+
+        // Dispose of the shape
+        groundShape.dispose();
+
+        }
     public void dispose() {
         shapeRenderer.dispose();
-    }}
+    }
+}
