@@ -20,7 +20,7 @@ public class LevelSelectState extends state{
     private Rectangle level1Button;
     private Rectangle level2Button;
     private Rectangle level3Button;
-    protected ArrayList<Level> levels;
+    public static ArrayList<Level> levels;
     //private ShapeRenderer shape;
     private BitmapFont font1;
     private Texture back;
@@ -53,16 +53,16 @@ public class LevelSelectState extends state{
         birds.add(new RedBird(world,163,252));
         birds.add(new RedBird(world,50,130));
         birds.add(new BlackBird(world,95,130));
-        blocks.add(new WoodBlock(world,652,160,70,70));
-        blocks.add(new WoodBlock(world,788,160,70,70));
-        blocks.add(new WoodBlock(world,684,230,70,70));
-        blocks.add(new WoodBlock(world,754,230,70,70));
-        blocks.add(new WoodBlock(world,717,300,70,70));
-        pigs.add(new MediumPig(730,130));
-        pigs.add(new SmallPig(645,200));
-        pigs.add(new SmallPig(825,200));
-        pigs.add(new SmallPig(730,275));
-        pigs.add(new KingPig(720,338));
+        blocks.add(new WoodBlock(world,652,160,70,70,1));
+        blocks.add(new WoodBlock(world,788,160,70,70,1));
+        blocks.add(new WoodBlock(world,684,230,70,70,1));
+        blocks.add(new WoodBlock(world,754,230,70,70,1));
+        blocks.add(new WoodBlock(world,717,300,70,70,1));
+        pigs.add(new MediumPig(world,730,130));
+        pigs.add(new SmallPig(world,645,200));
+        pigs.add(new SmallPig(world,825,200));
+        pigs.add(new SmallPig(world,730,275));
+        pigs.add(new KingPig(world,720,338));
         Level level=new Level(world,gsm,1,birds,pigs,blocks,"level1bg.png");
         return level;
     }
@@ -74,21 +74,17 @@ public class LevelSelectState extends state{
         birds.add(new YellowBird(world,143,252));
         birds.add(new YellowBird(world,40,130));
         birds.add(new RedBird(world,85,130));
-        blocks.add(new StoneBlock(world,637,160,70,50));
-        blocks.add(new GlassBlock(world,647,230,70,30));
-        blocks.add(new WoodBlock(world,707,160,70,70));
-        blocks.add(new WoodBlock(world,707,230,70,70));
-        blocks.add(new WoodBlock(world,707,300,70,70));
-        blocks.add(new StoneBlock(world,792,160,70,50));
-        blocks.add(new GlassBlock(world,802,230,70,30));
-        blocks.add(new WoodBlock(world,572,160,50,50));
-        blocks.add(new WoodBlock(world,842,160,50,50));
-        pigs.add(new SmallPig(800,270));
-        pigs.add(new SmallPig(645,270));
-        pigs.add(new SmallPig(720,135));
-        pigs.add(new SmallPig(720,275));
-        pigs.add(new KingPig(710,338));
-        pigs.add(new MediumPig(715,205));
+        blocks.add(new GlassBlock(world,652,160,70,70,2));
+        blocks.add(new GlassBlock(world,788,160,70,70,2));
+        blocks.add(new GlassBlock(world,684,230,70,70,2));
+        blocks.add(new GlassBlock(world,754,230,70,70,2));
+        blocks.add(new GlassBlock(world,717,300,70,70,2));
+        pigs.add(new SmallPig(world,800,270));
+        pigs.add(new SmallPig(world,645,270));
+        pigs.add(new SmallPig(world,720,135));
+        pigs.add(new SmallPig(world,720,275));
+        pigs.add(new KingPig(world,710,338));
+        pigs.add(new MediumPig(world,715,205));
         Level level=new Level(world,gsm,2,birds,pigs,blocks,"level2bg.png");
         return level;
     }
@@ -100,20 +96,17 @@ public class LevelSelectState extends state{
         birds.add(new BlackBird(world,143,252));
         birds.add(new BlackBird(world,40,130));
         birds.add(new YellowBird(world,85,130));
-        blocks.add(new WoodBlock(world,682,180,110,110));
-        blocks.add(new StoneBlock(world,792,180,70,40));
-        blocks.add(new StoneBlock(world,642,180,70,40));
-        blocks.add(new GlassBlock(world,792,250,40,40));
-        blocks.add(new GlassBlock(world,642,250,40,40));
-        blocks.add(new StoneBlock(world,767,250,60,20));
-        blocks.add(new StoneBlock(world,687,250,60,20));
-        blocks.add(new WoodBlock(world,695,350,80,80));
-        pigs.add(new MediumPig(710,240));
-        pigs.add(new SmallPig(642,240));
-        pigs.add(new SmallPig(792,240));
-        pigs.add(new MediumPig(707,307));
-        pigs.add(new SmallPig(712,380));
-        pigs.add(new KingPig(703,140));
+        blocks.add(new StoneBlock(world,652,160,70,70,3));
+        blocks.add(new StoneBlock(world,788,160,70,70,3));
+        blocks.add(new StoneBlock(world,684,230,70,70,3));
+        blocks.add(new StoneBlock(world,754,230,70,70,3));
+        blocks.add(new StoneBlock(world,717,300,70,70,3));
+        //pigs.add(new MediumPig(world,710,240));
+        //pigs.add(new SmallPig(world,642,240));
+        //pigs.add(new SmallPig(world,792,240));
+        //pigs.add(new MediumPig(world,707,307));
+        //pigs.add(new SmallPig(world,712,380));
+        pigs.add(new MediumPig(world,722,140));
         Level level=new Level(world,gsm,3,birds,pigs,blocks,"level2bg.png");
         return level;
     }
@@ -123,16 +116,16 @@ public class LevelSelectState extends state{
             float touchX=Gdx.input.getX();
             float touchY=Gdx.graphics.getHeight() - Gdx.input.getY();
             if(level1Button.contains(touchX,touchY)){
-                this.gsm.set(levels.get(0));
-                dispose();
+                this.gsm.push(levels.get(0));
+                //dispose();
             }
             if(level2Button.contains(touchX,touchY)){
-                this.gsm.set(levels.get(1));
-                dispose();
+                this.gsm.push(levels.get(1));
+                //dispose();
             }
             if(level3Button.contains(touchX,touchY)){
-                this.gsm.set(levels.get(2));
-                dispose();
+                this.gsm.push(levels.get(2));
+                //dispose();
             }
             if(backButton.contains(touchX,touchY)){
                 this.gsm.set(new MenuState(gsm));

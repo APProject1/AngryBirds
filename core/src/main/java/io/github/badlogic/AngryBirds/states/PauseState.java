@@ -4,8 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import java.io.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class PauseState extends state{
     private Texture background;
@@ -14,11 +22,12 @@ public class PauseState extends state{
     private Texture continuebtnText;
     private Texture saveBtnText;
     private Texture homeBtnText;
-    private Rectangle continueBtn;
+    /*private Rectangle continueBtn;
     private Rectangle saveBtn;
-    private Rectangle homeBtn;
+    private Rectangle homeBtn;*/
     Level level;
-    //private ShapeRenderer shape;
+    private Stage stage;
+    private TextButton.TextButtonStyle textButtonStyle;
 
     public PauseState(GameStateManager gsm, Level level){
         super(gsm);
@@ -28,35 +37,88 @@ public class PauseState extends state{
         continuebtnText= new Texture("play1btn.png");
         saveBtnText =new Texture("savebtn.png");
         homeBtnText =new Texture("home.png");
-        continueBtn=new Rectangle(290,310,310,40);
+        /*continueBtn=new Rectangle(290,310,310,40);
         saveBtn=new Rectangle(290,250,200,45);
-        homeBtn=new Rectangle(350,200,80,40);
+        homeBtn=new Rectangle(350,200,80,40);*/
         this.level=level;
-        //shape=new ShapeRenderer();
 
+        stage=new Stage(new ScreenViewport());
+        Gdx.input.setInputProcessor(stage);
+        textButtonStyle=new TextButton.TextButtonStyle();
+        textButtonStyle.font=font1;
+        font1.getData().setScale(0.5f);
+        TextButton continueBtn=new TextButton("Continue Playing",textButtonStyle);
+        continueBtn.setPosition(350,320);
+
+        TextButton saveBtn=new TextButton("Save Game",textButtonStyle);
+        saveBtn.setPosition(350,260);
+
+        TextButton homeBtn=new TextButton("Go To Home",textButtonStyle);
+        homeBtn.setPosition(350,200);
+
+        stage.addActor(saveBtn);
+        stage.addActor(continueBtn);
+        stage.addActor(homeBtn);
+
+        continueBtn.addListener(event->{
+            if(continueBtn.isPressed()){
+                gsm.pop();
+                dispose();
+                return true;
+            }
+            return false;
+        });
+
+        saveBtn.addListener(event->{
+            if(saveBtn.isPressed()){
+                String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+                level.saveBirdPositions("saves/birdPositions.txt",timestamp);
+                level.saveBlockPositions("saves/blockPositions.txt",timestamp);
+                level.savePigPositions("saves/pigPositions.txt",timestamp);
+                this.gsm.set(new SavedGamesState(gsm));
+                dispose();
+                return true;
+            }
+            return false;
+        });
+
+        homeBtn.addListener(event->{
+            if(homeBtn.isPressed()){
+                this.gsm.set(new MenuState(gsm));
+                dispose();
+                return true;
+            }
+            return false;
+        });
     }
 
-    @Override
-    public void handleInput() {
-        if(Gdx.input.justTouched()){
-            float touchX=Gdx.input.getX();
-            float touchY=Gdx.graphics.getHeight() - Gdx.input.getY();
-            if(continueBtn.contains(touchX,touchY)) {
-                this.gsm.set(level);
-                dispose();
+    public void saveLevel(){
+        try {
+            File saveDir=new File("saves");
+            if(!saveDir.exists()){
+                saveDir.mkdirs();}
+            LocalDateTime currentDateTime = LocalDateTime.now();
+            DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+            String time=currentDateTime.format(formatter);
+            String fileName="saves/game_"+time;
+
+            // Save the Level instance
+            try(ObjectOutputStream oos=new ObjectOutputStream(new FileOutputStream(fileName))){
+                oos.writeObject(level);
+                System.out.println("Game saved successfully to: "+fileName);
             }
-            if(saveBtn.contains(touchX,touchY)){
-                this.gsm.set(new SavedGamesState(gsm));
-            }
-            if(homeBtn.contains(touchX,touchY)){
-                this.gsm.set(new MenuState(gsm));
-            }
+        }catch(IOException e){
+            e.printStackTrace();
         }
     }
 
     @Override
+    public void handleInput() {
+    }
+
+    @Override
     public void update(float dt) {
-        handleInput();
+        stage.act(dt);
     }
 
     @Override
@@ -66,27 +128,17 @@ public class PauseState extends state{
         sb.draw(continuebtnText,290,310,45,45);
         sb.draw(saveBtnText,290,250,45,45);
         sb.draw(homeBtnText,290,190,45,45);
-        font1.getData().setScale(0.5f);
         font2.getData().setScale(1.2f);
-        font1.draw(sb,"Continue Playing",350,340);
-        font1.draw(sb,"Save Game",350,280);
         font2.draw(sb,"GAME PAUSED",240,500);
-        font1.draw(sb,"Go To Home",350,220);
         sb.end();
-
-
-        //shape.begin(ShapeRenderer.ShapeType.Line);
-        //shape.setColor(1, 0, 0, 1);
-        //shape.rect(continueBtn.x, continueBtn.y, continueBtn.width, continueBtn.height);
-        //shape.end();
+        stage.draw();
     }
-
-
 
     @Override
     public void dispose() {
         background.dispose();
         font1.dispose();
         font2.dispose();
+        stage.dispose();
     }
 }

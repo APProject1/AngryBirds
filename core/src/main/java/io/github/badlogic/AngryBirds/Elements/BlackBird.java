@@ -7,6 +7,7 @@ public class BlackBird extends Bird{
         super(world,x,y,"blackbird.png");
         height=49;
         width=40;
+        type="BlackBird";
     }
 
 }

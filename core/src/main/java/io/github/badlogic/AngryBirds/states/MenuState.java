@@ -1,60 +1,83 @@
 package io.github.badlogic.AngryBirds.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector3;
-
-import java.awt.*;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MenuState extends state{
     private Texture background;
-    private Texture playButtonTexture;
-    private Rectangle playButton;
-    private Texture saveButtonText;
-    private Rectangle savedBtn;
     private Texture logo;
-    private Texture exitBtnText;
-    private Rectangle exitBtn;
-    //private ShapeRenderer shape;
+    private Stage stage;
+    private Button playButton;
+    private Button savedBtn;
+    private Button exitBtn;
+    private Texture playButtonTexture;
 
     public MenuState(GameStateManager gsm) {
         super(gsm);
         background= new Texture("bg.png");
-        playButtonTexture =new Texture("playbutton.png");
-        saveButtonText =new Texture("savebtn.png");
-        exitBtnText =new Texture("exit.png");
+        playButtonTexture=new Texture("playbutton.png");
+        stage=new Stage(new ScreenViewport());
+        Gdx.input.setInputProcessor(stage);
+        playButton= createButton("playbutton.png", 450-(playButtonTexture.getWidth()/2),330,playButtonTexture.getWidth(), playButtonTexture.getHeight());
+        savedBtn= createButton("savebtn.png", 450-(playButtonTexture.getWidth()/2),240, playButtonTexture.getWidth(), playButtonTexture.getHeight());
+        exitBtn=createButton("exit.png", 450-(playButtonTexture.getWidth()/2),150, playButtonTexture.getWidth(), playButtonTexture.getHeight());
         logo=new Texture("logo1.png");
-        playButton= new Rectangle(450-(playButtonTexture.getWidth()/2),250,50,50);
-        savedBtn=new Rectangle(450-(saveButtonText.getWidth()/2),350, playButtonTexture.getWidth(), playButtonTexture.getHeight());
-        exitBtn=new Rectangle(450-(saveButtonText.getWidth()/2),450, playButtonTexture.getWidth(), playButtonTexture.getHeight());
-        //shape=new ShapeRenderer();
+
+        stage.addActor(playButton);
+        stage.addActor(savedBtn);
+        stage.addActor(exitBtn);
+
+        playButton.addListener(event->{
+            if(playButton.isPressed()){
+                this.gsm.set(new LevelSelectState(this.gsm));
+                dispose();
+                return true;
+            }
+            return false;
+        });
+        savedBtn.addListener(event->{
+            if(savedBtn.isPressed()){
+                this.gsm.set(new SavedGamesState(this.gsm));
+                dispose();
+                return true;
+            }
+            return false;
+        });
+        exitBtn.addListener(event->{
+            if(exitBtn.isPressed()){
+                Gdx.app.exit();
+                dispose();
+                return true;
+            }
+            return false;
+        });
     }
 
     @Override
-    public void handleInput() {
-        if(Gdx.input.justTouched()){
-            float touchX=Gdx.input.getX();
-            float touchY=Gdx.input.getY();
+    public void handleInput(){
+    }
 
-            if(playButton.contains(touchX,touchY)){
-                this.gsm.set(new LevelSelectState(this.gsm));
-                dispose();
-            }else if(savedBtn.contains(touchX,touchY)){
-                this.gsm.set(new SavedGamesState(this.gsm));
-                dispose();
-            }else if(exitBtn.contains(touchX,touchY)){
-                Gdx.app.exit();
-                dispose();
-            }
-        }
+    private Button createButton(String texturePath, float x, float y, float width, float height) {
+        Texture texture = new Texture(texturePath);
+        TextureRegionDrawable drawable = new TextureRegionDrawable(texture);
+        Button button = new Button(drawable);
+        button.setBounds(x, y, width, height);
+        return button;
+    }
+
+    @Override
+    public void resize(int width,int height){
+        stage.getViewport().update(width,height, true);
     }
 
     @Override
     public void update(float dt){
-        handleInput();
+        stage.act(dt);
     }
 
     @Override
@@ -62,22 +85,14 @@ public class MenuState extends state{
         sb.begin();
         sb.draw(background,0,0,900,600);
         sb.draw(logo,250,450,400,100);
-        sb.draw(playButtonTexture,450-(playButtonTexture.getWidth()/2),300);
-        sb.draw(saveButtonText,450-(saveButtonText.getWidth()/2),200, playButtonTexture.getWidth(), playButtonTexture.getHeight());
-        sb.draw(exitBtnText,450-(exitBtnText.getWidth()/2),100, playButtonTexture.getWidth(), playButtonTexture.getHeight());
         sb.end();
-        //shape.begin(ShapeRenderer.ShapeType.Line);
-        //shape.setColor(1, 0, 0, 1);
-        //shape.rect(exitBtn.x, exitBtn.y, exitBtn.width, exitBtn.height);
-        //shape.end();
+        stage.draw();
     }
 
     @Override
     public void dispose() {
         background.dispose();
         logo.dispose();
-        playButtonTexture.dispose();
-        saveButtonText.dispose();
-        exitBtnText.dispose();
+        stage.dispose();
     }
 }
