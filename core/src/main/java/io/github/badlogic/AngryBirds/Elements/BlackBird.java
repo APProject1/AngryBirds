@@ -9,5 +9,10 @@ public class BlackBird extends Bird{
         width=40;
         type="BlackBird";
     }
-
+    public BlackBird(World world, float x, float y, float velX, float velY){
+        super(world,x,y,velX,velY,"blackbird.png");
+        height=49;
+        width=40;
+        type="BlackBird";
+    }
 }

@@ -34,7 +34,7 @@ public class Level extends state{
     private Bird activeBird;
     private Vector2 leftstartpos;
     private Vector2 rightstartpos;
-    private Bird flyingBird;
+    public Bird flyingBird;
     int level;
     public World world;
     private ShapeRenderer shapeRenderer;
@@ -46,7 +46,7 @@ public class Level extends state{
 
 
 
-    public Level(World world,GameStateManager gsm,int num,ArrayList<Bird> birds,ArrayList<Pig> pigs,ArrayList<Block> blocks,String texture) {
+    public Level(World world,GameStateManager gsm,int num,ArrayList<Bird> birds,ArrayList<Pig> pigs,ArrayList<Block> blocks,String texture){
         super(gsm);
         toRemoveBlocks =new ArrayList<>();
         toRemovePigs=new ArrayList<>();
@@ -87,9 +87,6 @@ public class Level extends state{
                 activeBird.body.getAngle() // Retain the current rotation angle
             );
         }
-
-
-
     }
 
     @Override
@@ -384,9 +381,10 @@ public class Level extends state{
     public boolean isMoving(Bird bird){
         return (!bird.body.getLinearVelocity().epsilonEquals(0,0));
     }
+
     public void saveBirdPositions(String fileName, String timestamp) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))){
-            writer.write(timestamp +", "+ level);
+            writer.write(timestamp +", "+ level +", "+ birds.size()+1);
             writer.newLine();
 
             for (int i = 0; i < birds.size(); i++) {
@@ -395,12 +393,15 @@ public class Level extends state{
                 writer.write(bird.type+ ", " + bird.body.getPosition().x + ", " + bird.body.getPosition().y + ", " +velocity.x + ", "+velocity.y);
                 writer.newLine();
             }
-            for (int i = 0; i < doneBirds.size(); i++) {
-                Bird bird = doneBirds.get(i);
-                Vector2 velocity = bird.body.getLinearVelocity();
-                writer.write(bird.type+ ", " + bird.body.getPosition().x + ", " + bird.body.getPosition().y + ", " +velocity.x + ", "+velocity.y);
-                writer.newLine();
-            }
+            //for (int i = 0; i < doneBirds.size(); i++) {
+                //Bird bird = doneBirds.get(i);
+            if(flyingBird!=null){
+                Vector2 velocity = flyingBird.body.getLinearVelocity();
+                writer.write(flyingBird.type+ ", " + flyingBird.body.getPosition().x + ", " + flyingBird.body.getPosition().y + ", " +velocity.x + ", "+velocity.y);
+                writer.newLine();}
+            else{
+                writer.write("null");
+                writer.newLine();}
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -428,6 +429,7 @@ public class Level extends state{
 
             for (int i = 0; i < blocks.size(); i++){
                 Block block = blocks.get(i);
+                //Vector2 velocity = block.body.getLinearVelocity();
                 writer.write(block.type + ", " + block.body.getPosition().x + ", " + block.body.getPosition().y + ", " + block.height+ ", " + block.width+", " + block.health);
                 writer.newLine();
             }

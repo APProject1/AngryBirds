@@ -51,11 +51,37 @@ public abstract class Bird {
         this.body.setFixedRotation(true);
 // Create our fixture and attach it to the body
         this.fixture = body.createFixture(fixtureDef);
+    }
 
+    public Bird(World world,float x, float y, float velX, float velY,String texture){
+        this.world=world;
+        this.x=x;
+        this.y=y;
+        //isLaunched=false;
+        this.texture=new Texture(texture);
+        //this.velocity=new Vector2(0,0);
+        BodyDef bodyDef = new BodyDef();
+        isActivated=false;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(x, y+20);
+        this.body = world.createBody(bodyDef);
+        this.body.setSleepingAllowed(false);
+        CircleShape circle = new CircleShape();
+        circle.setRadius(this.width+20);
+        body.setUserData(this);
+        fixtureDef = new FixtureDef();
+        fixtureDef.filter.categoryBits = 0x0002; // Default category
+        fixtureDef.filter.maskBits =0x0001|0x0003;
+        fixtureDef.shape = circle;
+        fixtureDef.density = 40f;
+        fixtureDef.friction = 0.001f;
+        fixtureDef.restitution = 0.0001f; // Make it bounce a little bit
+        this.body.setFixedRotation(true);
+        this.fixture = body.createFixture(fixtureDef);
 
+        this.body.setLinearVelocity(velX,velY);
     }
     public void launch(){
-
     };
 
     public void dispose() {

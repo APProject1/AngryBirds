@@ -8,7 +8,11 @@ public class RedBird extends Bird{
         width=40;
         height=40;
         type="RedBird";
-
     }
-
+    public RedBird(World world, float x, float y, float velX, float velY){
+        super(world,x,y,velX,velY,"redbird1.png");
+        width=40;
+        height=40;
+        type="RedBird";
+    }
 }

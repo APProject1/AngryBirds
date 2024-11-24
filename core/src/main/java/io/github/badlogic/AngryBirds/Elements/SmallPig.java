@@ -9,6 +9,12 @@ public class SmallPig extends Pig {
         width=40;
         type="SmallPig";
     }
+    public SmallPig(World world, float x, float y, float velX, float velY, int health) {
+        super(world,x, y, velX,velY, "smallpig.png", health,40 );
+        height=40;
+        width=40;
+        type="SmallPig";
+    }
 
     @Override
     public void takeDamage() {

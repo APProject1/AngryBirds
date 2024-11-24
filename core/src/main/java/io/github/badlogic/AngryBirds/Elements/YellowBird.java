@@ -10,4 +10,10 @@ public class YellowBird extends Bird{
         type="YellowBird";
         width=45;
     }
+    public YellowBird(World world, float x, float y, float velX, float velY){
+        super(world,x,y,velX,velY,"yellowbird.png");
+        height=40;
+        type="YellowBird";
+        width=45;
+    }
 }

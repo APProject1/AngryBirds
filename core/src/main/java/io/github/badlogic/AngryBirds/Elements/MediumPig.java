@@ -9,7 +9,12 @@ public class MediumPig extends Pig {
         width=55;
         type="MediumPig";
     }
-
+    public MediumPig(World world, float x, float y, float velX, float velY, int health){
+        super(world,x, y, velX, velY, "mediumpig.png", health,55);
+        height=55;
+        width=55;
+        type="MediumPig";
+    }
     @Override
     public void takeDamage() {
     }

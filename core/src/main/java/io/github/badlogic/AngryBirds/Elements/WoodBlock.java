@@ -9,7 +9,12 @@ public class WoodBlock extends Block{
         this.width=width;
         type="WoodBlock";
     }
-
+    public WoodBlock(World world, float x, float y, int height, int width,int health,int level) {
+        super(world,x,y,"woodblock.png",health,width,height,level);
+        this.height=height;
+        this.width=width;
+        type="WoodBlock";
+    }
     @Override
     public void takeDamage(){
     }

@@ -53,8 +53,6 @@ public abstract class Block {
         shape.dispose();
     }
 
-
-
     public abstract void takeDamage();
 
     public void applyForce(float forceX, float forceY) {
