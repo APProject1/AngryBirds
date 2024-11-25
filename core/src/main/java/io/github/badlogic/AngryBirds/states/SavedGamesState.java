@@ -29,6 +29,7 @@ public class SavedGamesState extends state{
     public ArrayList<Bird> resetBirds;
     public ArrayList<Pig> resetPigs;
     public ArrayList<Block> resetBlocks;
+    public Bird flyingBird;
     private String level1;
     private String level2;
     private String level3;
@@ -113,6 +114,8 @@ public class SavedGamesState extends state{
                         try {
                             Level levelInstance = new Level(world, gsm, level, resetBirds, resetPigs, resetBlocks,"level1bg.png");
                             //levelInstance.flyingBird=resetBirds.get(resetBirds.size()-1);
+                            levelInstance.flyingBird=flyingBird;
+                            levelInstance.doneBirds.add(flyingBird);
                             gsm.set(levelInstance);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -124,6 +127,8 @@ public class SavedGamesState extends state{
                         try {
                             Level levelInstance = new Level(world, gsm, level, resetBirds, resetPigs, resetBlocks,"level2bg.png");
                             //levelInstance.flyingBird=resetBirds.get(resetBirds.size()-1);
+                            levelInstance.flyingBird=flyingBird;
+                            levelInstance.doneBirds.add(flyingBird);
                             gsm.set(levelInstance);
                         }catch (Exception e) {
                             e.printStackTrace();}
@@ -133,6 +138,8 @@ public class SavedGamesState extends state{
                         try {
                             Level levelInstance = new Level(world, gsm, level, resetBirds, resetPigs, resetBlocks,"level2bg.png");
                             //levelInstance.flyingBird=resetBirds.get(resetBirds.size()-1);
+                            levelInstance.flyingBird=flyingBird;
+                            levelInstance.doneBirds.add(flyingBird);
                             gsm.set(levelInstance);
                         }catch (Exception e) {
                             e.printStackTrace();
@@ -182,6 +189,29 @@ public class SavedGamesState extends state{
                         }
                         if(type.equals("BlackBird")){
                             resetBirds.add(new BlackBird(world,posX,posY,velX,velY));
+                        }
+                    }
+                    if (birdDetails.length == 6) {
+                        String type = birdDetails[0].trim();
+                        float posX = Float.parseFloat(birdDetails[1].trim());
+                        float posY = Float.parseFloat(birdDetails[2].trim());
+                        float velX = Float.parseFloat(birdDetails[3].trim());
+                        float velY = Float.parseFloat(birdDetails[4].trim());
+                        boolean isActivated=Boolean.parseBoolean(birdDetails[5].trim());
+                        System.out.println("type: " + type + ", posX: " + posX + ", posY: " + posY + ", velX: " + velX + ", velY: " + velY);
+                        if(type.equals("RedBird")){
+                            flyingBird=new RedBird(world,posX,posY,velX,velY);
+                        }
+                        if(type.equals("YellowBird")){
+                            flyingBird=new YellowBird(world,posX,posY,velX,velY);
+                        }
+                        if(type.equals("BlackBird")){
+                            BlackBird blackBird=new BlackBird(world,posX,posY,velX,velY);
+                            blackBird.isActivated=true;
+                            blackBird.width=2*blackBird.width;
+                            blackBird.height=2*blackBird.height;
+                            blackBird.body.getFixtureList().get(0).getShape().setRadius(blackBird.width/2f);
+                            flyingBird=blackBird;
                         }
                     }
                     if(resetBirds.size() ==n) {

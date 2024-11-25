@@ -46,7 +46,7 @@ public abstract class Block {
         fixtureDef.friction = 0.1f; // Adjust friction for sliding resistance
         fixtureDef.restitution = 0.00000001f; // Adjust restitution for bounciness
         //this.body.setLinearDamping(777);
-        this.body.setFixedRotation(true);
+        //this.body.setFixedRotation(true);
         body.setUserData(this);
         // Attach the shape to the body
         body.createFixture(fixtureDef);

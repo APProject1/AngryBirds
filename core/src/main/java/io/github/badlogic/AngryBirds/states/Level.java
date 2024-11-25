@@ -36,12 +36,12 @@ public class Level extends state{
     private Bird activeBird;
     private Vector2 leftstartpos;
     private Vector2 rightstartpos;
-    private Bird flyingBird;
+    public Bird flyingBird;
     int level;
     public World world;
     private ShapeRenderer shapeRenderer;
     private Box2DDebugRenderer debugRenderer;
-    private ArrayList<Bird> doneBirds;
+    ArrayList<Bird> doneBirds;
     OrthographicCamera camera;
     //public static Vector2 gravity=new Vector2(0,-9.8f);
     //private int time;
@@ -343,7 +343,7 @@ public class Level extends state{
 
         // Define the shape of the ground
         PolygonShape groundShape = new PolygonShape();
-        groundShape.setAsBox(900, 70); // Half-width and half-height of the ground
+        groundShape.setAsBox(870, 70); // Half-width and half-height of the ground
 
         // Create a fixture and attach the shape to the ground body
         FixtureDef groundFixtureDef = new FixtureDef();
@@ -404,7 +404,7 @@ public class Level extends state{
             //Bird bird = doneBirds.get(i);
             if(flyingBird!=null){
                 Vector2 velocity = flyingBird.body.getLinearVelocity();
-                writer.write(flyingBird.type+ ", " + flyingBird.body.getPosition().x + ", " + flyingBird.body.getPosition().y + ", " +velocity.x + ", "+velocity.y);
+                writer.write(flyingBird.type+ ", " + flyingBird.body.getPosition().x + ", " + flyingBird.body.getPosition().y + ", " +velocity.x + ", "+velocity.y+", "+flyingBird.isActivated);
                 writer.newLine();}
             else{
                 writer.write("null");

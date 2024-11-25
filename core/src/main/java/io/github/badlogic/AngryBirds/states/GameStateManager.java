@@ -8,12 +8,12 @@ import java.util.Stack;
 
 public class GameStateManager {
     private Stack<state> states;
+    public Music theme=Gdx.audio.newMusic(Gdx.files.internal("angry.mp3"));;
 
     public GameStateManager() {
         states = new Stack<state>();
-        Music theme = Gdx.audio.newMusic(Gdx.files.internal("angry.mp3"));
         theme.setLooping(true); // Enable looping
-        theme.setVolume(0.4f); // Set volume
+        theme.setVolume(0.2f); // Set volume
         theme.play();
     }
 

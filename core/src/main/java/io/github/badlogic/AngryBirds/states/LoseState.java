@@ -1,6 +1,7 @@
 package io.github.badlogic.AngryBirds.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -23,6 +24,9 @@ public class LoseState extends state{
 
     public LoseState(GameStateManager gsm,int level){
         super(gsm);
+        Music flymusic = Gdx.audio.newMusic(Gdx.files.internal("fail.mp3"));
+        flymusic.setVolume(1.5f); // Set volume
+        flymusic.play();
         background= new Texture("bg.png");
         font1=new BitmapFont(Gdx.files.internal("font3.fnt"));
         font2=new BitmapFont(Gdx.files.internal("font3.fnt"));
