@@ -127,7 +127,7 @@ public class SavedGamesState extends state{
                             gsm.set(levelInstance);
                         }catch (Exception e) {
                             e.printStackTrace();}
-                            dispose();
+                        dispose();
                     }
                     if(level==3){
                         try {

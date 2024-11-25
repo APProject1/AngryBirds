@@ -1,5 +1,8 @@
 package io.github.badlogic.AngryBirds.lwjgl3;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import io.github.badlogic.AngryBirds.Main;
@@ -12,6 +15,8 @@ public class Lwjgl3Launcher {
     }
 
     private static Lwjgl3Application createApplication() {
+
+
         return new Lwjgl3Application(new Main(), getDefaultConfiguration());
     }
 

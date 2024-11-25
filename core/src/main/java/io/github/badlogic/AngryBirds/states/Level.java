@@ -1,5 +1,7 @@
 package io.github.badlogic.AngryBirds.states;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.Gdx;
@@ -34,7 +36,7 @@ public class Level extends state{
     private Bird activeBird;
     private Vector2 leftstartpos;
     private Vector2 rightstartpos;
-    public Bird flyingBird;
+    private Bird flyingBird;
     int level;
     public World world;
     private ShapeRenderer shapeRenderer;
@@ -46,7 +48,7 @@ public class Level extends state{
 
 
 
-    public Level(World world,GameStateManager gsm,int num,ArrayList<Bird> birds,ArrayList<Pig> pigs,ArrayList<Block> blocks,String texture){
+    public Level(World world,GameStateManager gsm,int num,ArrayList<Bird> birds,ArrayList<Pig> pigs,ArrayList<Block> blocks,String texture) {
         super(gsm);
         toRemoveBlocks =new ArrayList<>();
         toRemovePigs=new ArrayList<>();
@@ -87,6 +89,9 @@ public class Level extends state{
                 activeBird.body.getAngle() // Retain the current rotation angle
             );
         }
+
+
+
     }
 
     @Override
@@ -148,6 +153,9 @@ public class Level extends state{
             activeBird.body.applyLinearImpulse(launchForce, activeBird.body.getWorldCenter(), true);
             flyingBird=activeBird;
             flyingBird.isLaunched=true;
+            Music flymusic = Gdx.audio.newMusic(Gdx.files.internal("fly.mp3"));
+            flymusic.setVolume(0.8f); // Set volume
+            flymusic.play();
             //activeBird.velocity.x=launchDirection.x*force;
             //activeBird.velocity.y=launchDirection.y*force;
             //activeBird.launch(launchDirection.scl(force)); // Launch the bird
@@ -171,8 +179,7 @@ public class Level extends state{
             if (flyingBird instanceof YellowBird && !((YellowBird) flyingBird).isActivated) {
                 YellowBird yellowBird = (YellowBird) flyingBird;
                 yellowBird.isActivated=true;
-                // Get the Box2D body of the bird
-                yellowBird.body.setLinearVelocity(new Vector2(yellowBird.body.getLinearVelocity().x+10000000,yellowBird.body.getLinearVelocity().y+10));
+                yellowBird.body.setLinearVelocity(new Vector2(250000000,0));
             }
             if (flyingBird instanceof BlackBird && !((BlackBird) flyingBird).isActivated) {
                 BlackBird blackBird = (BlackBird) flyingBird;
@@ -280,7 +287,8 @@ public class Level extends state{
 
 
         for (Block block:blocks){
-            sb.draw(block.texture,block.body.getPosition().x-block.width/2f,block.body.getPosition().y-block.height/2f,block.width,block.height);
+            sb.draw(new TextureRegion(block.texture),block.body.getPosition().x-block.width/2f,block.body.getPosition().y-block.height/2f,block.width/2f,block.height/2f,block.width,block.height,1f,1f,(float)Math.toDegrees(block.body.getAngle()));
+            //sb.draw(block.texture,block.body.getPosition().x-block.width/2f,block.body.getPosition().y-block.height/2f,block.width,block.height);
         }
         for (Pig pig:pigs){
             sb.draw(pig.texture,pig.body.getPosition().x-pig.height/2f,pig.body.getPosition().y-pig.width/2f,pig.width,pig.height);
@@ -335,7 +343,7 @@ public class Level extends state{
 
         // Define the shape of the ground
         PolygonShape groundShape = new PolygonShape();
-        groundShape.setAsBox(800, 70); // Half-width and half-height of the ground
+        groundShape.setAsBox(900, 70); // Half-width and half-height of the ground
 
         // Create a fixture and attach the shape to the ground body
         FixtureDef groundFixtureDef = new FixtureDef();
@@ -381,7 +389,6 @@ public class Level extends state{
     public boolean isMoving(Bird bird){
         return (!bird.body.getLinearVelocity().epsilonEquals(0,0));
     }
-
     public void saveBirdPositions(String fileName, String timestamp) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))){
             writer.write(timestamp +", "+ level +", "+ birds.size()+1);
@@ -394,7 +401,7 @@ public class Level extends state{
                 writer.newLine();
             }
             //for (int i = 0; i < doneBirds.size(); i++) {
-                //Bird bird = doneBirds.get(i);
+            //Bird bird = doneBirds.get(i);
             if(flyingBird!=null){
                 Vector2 velocity = flyingBird.body.getLinearVelocity();
                 writer.write(flyingBird.type+ ", " + flyingBird.body.getPosition().x + ", " + flyingBird.body.getPosition().y + ", " +velocity.x + ", "+velocity.y);
