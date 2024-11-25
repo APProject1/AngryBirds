@@ -98,7 +98,7 @@ public class LevelSelectState extends state{
         blocks.add(new StoneBlock(world,652,160,70,70,3));
         blocks.add(new StoneBlock(world,788,160,70,70,3));
         blocks.add(new GlassBlock(world,674,230,50,20,3));
-        blocks.add(new GlassBlock(world,764,230,50,20,3));
+        blocks.add(new GlassBlock(world,760,230,50,20,3));
         blocks.add(new StoneBlock(world,814,230,50,20,3));
         blocks.add(new StoneBlock(world,624,230,50,20,3));
         blocks.add(new StoneBlock(world,717,300,70,70,3));
