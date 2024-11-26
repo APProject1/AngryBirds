@@ -23,7 +23,7 @@ public class SavedGamesState extends state{
     private Texture background;
     private BitmapFont font1;
     private BitmapFont font2;
-    private Stage stage;
+    public Stage stage;
     private Button backButton;
     private TextButton.TextButtonStyle textButtonStyle;
     public ArrayList<Bird> resetBirds;

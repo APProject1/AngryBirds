@@ -37,7 +37,15 @@ dependencies {
   if(enableGraalNative == 'true') {
     implementation "io.github.berstanio:gdx-svmhelper-backend-lwjgl3:$graalHelperVersion"
     }
-
+  dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'  // JUnit Jupiter API
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.1'  // JUnit Jupiter Engine
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'// JUnit Jupiter Params (for parameterized tests)
+    //compile 'junit:junit:5.8.1'
+  }
+  test {
+    useJUnitPlatform()  // Enable JUnit 5 platform
+  }
 }
 
 def os = System.properties['os.name'].toLowerCase()

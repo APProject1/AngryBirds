@@ -9,8 +9,7 @@ buildscript {
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
   }
   dependencies {
-
-
+    //classpath "org.junit.platform:junit-platform-gradle-plugin:5.8.1"
   }
 }
 
@@ -26,6 +25,7 @@ allprojects {
     }
   }
 }
+
 
 configure(subprojects) {
   apply plugin: 'java-library'
@@ -55,7 +55,6 @@ configure(subprojects) {
     options.incremental = true
   }
 }
-
 subprojects {
   version = '$projectVersion'
   ext.appName = 'AngryBirds'
@@ -67,6 +66,15 @@ subprojects {
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
     maven { url 'https://jitpack.io' }
+  }
+  dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'  // JUnit Jupiter API
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.1'  // JUnit Jupiter Engine
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'// JUnit Jupiter Params (for parameterized tests)
+    //compile 'junit:junit:5.8.1'
+  }
+  test {
+    useJUnitPlatform()  // Enable JUnit 5 platform
   }
 }
 
