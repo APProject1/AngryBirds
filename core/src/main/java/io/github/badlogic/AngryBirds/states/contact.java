@@ -1,5 +1,8 @@
 package io.github.badlogic.AngryBirds.states;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.*;
 import io.github.badlogic.AngryBirds.Elements.*;
 
@@ -15,12 +18,17 @@ public class contact implements ContactListener {
         Fixture fixtureB = contact.getFixtureB();
         Object userDataA = fixtureA.getBody().getUserData();
         Object userDataB = fixtureB.getBody().getUserData();
+        Music birdCollide = Gdx.audio.newMusic(Gdx.files.internal("birdCollision.mp3"));
+        birdCollide.setVolume(0.8f);
+        Music pigCollide = Gdx.audio.newMusic(Gdx.files.internal("pigCollision.mp3"));
+        pigCollide.setVolume(0.8f);
 
         // Check for specific collisions and take actions
         if (userDataA instanceof Bird && userDataB instanceof Block) {
             Block block=(Block) userDataB;
             Bird bird=(Bird) userDataA;
             block.health-= (int) (bird.body.getLinearVelocity().len()/110)+1;
+            birdCollide.play();
             if (block.health<=0){
                 block.dispose(level);
             }
@@ -28,6 +36,7 @@ public class contact implements ContactListener {
             Block block=(Block) userDataA;
             Bird bird=(Bird) userDataB;
             block.health-= (int) (bird.body.getLinearVelocity().len()/110)+1;
+            birdCollide.play();
             if (block.health<=0){
                 block.dispose(level);
             }
@@ -36,6 +45,7 @@ public class contact implements ContactListener {
             Pig pig=(Pig) userDataB;
             Bird bird=(Bird) userDataA;
             pig.health-= (int) (bird.body.getLinearVelocity().len()/110)+1;
+            pigCollide.play();
             if (pig.health<=0){
                 pig.dispose(level);
             }
@@ -44,6 +54,7 @@ public class contact implements ContactListener {
             Pig pig=(Pig) userDataA;
             Bird bird=(Bird) userDataB;
             pig.health-= (int) (bird.body.getLinearVelocity().len()/110)+1;
+            pigCollide.play();
             if (pig.health<=0){
                 pig.dispose(level);
             }
@@ -53,6 +64,7 @@ public class contact implements ContactListener {
             Block block=(Block) userDataB;
             if (block.body.getLinearVelocity().len()>55){
                 pig.health-=1;
+                pigCollide.play();
                 if (pig.health<=0){
                     pig.dispose(level);
                 }
@@ -63,6 +75,7 @@ public class contact implements ContactListener {
             Block block=(Block) userDataA;
             if (block.body.getLinearVelocity().len()>55){
                 pig.health-=1;
+                pigCollide.play();
                 if (pig.health<=0){
                     pig.dispose(level);
                 }
