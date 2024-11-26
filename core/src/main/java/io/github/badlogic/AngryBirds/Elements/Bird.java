@@ -89,7 +89,7 @@ public abstract class Bird {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(body.getPosition().x, body.getPosition().y, width, height);
+        return new Rectangle(body.getPosition().x, body.getPosition().y-20, width+20, height+20);
     }
 
 
