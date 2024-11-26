@@ -12,6 +12,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.w3c.dom.Text;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoseState extends state{
     private Texture background;
@@ -20,6 +22,7 @@ public class LoseState extends state{
     int level;
     private Stage stage;
     private TextButton.TextButtonStyle textButtonStyle;
+    public List<FallingObject> fallingObjects;
 
 
     public LoseState(GameStateManager gsm,int level){
@@ -31,6 +34,21 @@ public class LoseState extends state{
         font1=new BitmapFont(Gdx.files.internal("font3.fnt"));
         font2=new BitmapFont(Gdx.files.internal("font3.fnt"));
         this.level=level;
+        fallingObjects = new ArrayList<>();
+        Texture f1 = new Texture("feather1.png");
+        Texture f2= new Texture("feather2.png");
+        Texture f3 = new Texture("feather3.png");
+        Texture f4 = new Texture("feather4.png");
+        Texture[] textures ={f1,f2,f3,f4};
+        for (int i = 0; i <50; i++) {
+            Texture texture = textures[(int) (Math.random() * textures.length)];
+            float x = (i * 100) % 800; // Cycle through screen width with spacing of 150
+            float y = 600 + (i / 5) * 100;
+            FallingObject obj=new FallingObject(texture, (float) Math.random() * 900, (float)Math.random()*600, 50 + (float) Math.random() * 50);
+            obj.width=10;
+            obj.height=30;
+            fallingObjects.add(obj);
+        }
 
         stage=new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -92,12 +110,22 @@ public class LoseState extends state{
     @Override
     public void update(float dt) {
         stage.act(dt);
+        for (FallingObject obj : fallingObjects){
+            obj.update(dt);
+            if(obj.isOnGround) {
+                float newX = (float) (Math.random() * 800);
+                obj.reset(newX);
+            }
+        }
     }
 
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
         sb.draw(background,0,0,900,600);
+        for (FallingObject obj : fallingObjects) {
+            obj.render(sb);
+        }
         font1.getData().setScale(0.8f);
         font2.getData().setScale(1.2f);
         font2.draw(sb,"Too Bad! :(",240,500);
@@ -109,6 +137,9 @@ public class LoseState extends state{
     @Override
     public void dispose() {
         background.dispose();
+        for (FallingObject obj : fallingObjects) {
+            obj.getTexture().dispose();
+        }
         font1.dispose();
         stage.dispose();
     }

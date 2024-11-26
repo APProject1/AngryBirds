@@ -44,9 +44,9 @@ public class MenuState extends state{
 
         for (int i = 0; i <10; i++) {
             Texture texture = textures[(int) (Math.random() * textures.length)];
-            float x = (i * 100) % 800; // Cycle through screen width with spacing of 150
-            float y = 600 + (i / 5) * 100;
-            fallingObjects.add(new FallingObject(texture, (float) Math.random() * 800, 600, 50 + (float) Math.random() * 50));
+            //float x = (i * 100) % 800; // Cycle through screen width with spacing of 150
+            //float y = 600 + (i / 5) * 100;
+            fallingObjects.add(new FallingObject(texture, (float) Math.random() * 800, (float) Math.random() * 600, 50 + (float) Math.random() * 50));
         }
 
         stage.addActor(playButton);

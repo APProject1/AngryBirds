@@ -40,7 +40,6 @@ public class Level extends state{
     int level;
     public World world;
     private ShapeRenderer shapeRenderer;
-    private Box2DDebugRenderer debugRenderer;
     ArrayList<Bird> doneBirds;
     OrthographicCamera camera;
     //public static Vector2 gravity=new Vector2(0,-9.8f);
@@ -75,7 +74,6 @@ public class Level extends state{
         camera.setToOrtho(false, 900, 600);  // Set the camera size
         camera.update();
         // Debug renderer (to visualize Box2D bodies)
-        debugRenderer = new Box2DDebugRenderer();
         //time=0;
         createGround();
         createSlingshot();
@@ -299,7 +297,7 @@ public class Level extends state{
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
         // Set the line color to red
-        shapeRenderer.setColor(1, 0, 0, 1);
+        shapeRenderer.setColor(0, 0, 0, 1);
 
         if (isDragging) {
             // Render the slingshot line
@@ -309,7 +307,6 @@ public class Level extends state{
         }
 
         shapeRenderer.end();
-        debugRenderer.render(world, camera.combined);
     }
     /*
     public void drawSlingshot(){

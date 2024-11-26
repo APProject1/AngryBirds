@@ -13,6 +13,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.w3c.dom.Text;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WinState extends state{
     private Texture background;
@@ -21,6 +23,8 @@ public class WinState extends state{
     int level;
     private Stage stage;
     private TextButton.TextButtonStyle textButtonStyle;
+    public List<FallingObject> fallingObjects;
+
 
 
     public WinState(GameStateManager gsm,int level){
@@ -32,6 +36,18 @@ public class WinState extends state{
         congrats=new Texture("congrats.png");
         font1=new BitmapFont(Gdx.files.internal("font3.fnt"));
         this.level=level;
+        fallingObjects = new ArrayList<>();
+        Texture pig1 = new Texture("medium1.png");
+        Texture pig4 = new Texture("king1.png");
+        Texture pig2 = new Texture("king2.png");
+        Texture pig3 = new Texture("dying.png");
+        Texture[] textures ={pig1,pig2,pig3,pig4};
+        for (int i = 0; i <10; i++) {
+            Texture texture = textures[(int) (Math.random() * textures.length)];
+            float x = (i * 100) % 800; // Cycle through screen width with spacing of 150
+            float y = 600 + (i / 5) * 100;
+            fallingObjects.add(new FallingObject(texture, (float) Math.random() * 900, (float)Math.random()*600, 50 + (float) Math.random() * 50));
+        }
 
         stage=new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -92,6 +108,13 @@ public class WinState extends state{
     @Override
     public void update(float dt) {
         stage.act(dt);
+        for (FallingObject obj : fallingObjects){
+            obj.update(dt);
+            if(obj.isOnGround) {
+                float newX = (float) (Math.random() * 800);
+                obj.reset(newX);
+            }
+        }
     }
 
     @Override
@@ -99,6 +122,9 @@ public class WinState extends state{
         sb.begin();
         sb.draw(background,0,0,900,600);
         font1.getData().setScale(0.8f);
+        for (FallingObject obj : fallingObjects) {
+            obj.render(sb);
+        }
         sb.draw(congrats,250,380,400,150);
         sb.end();
         stage.draw();
@@ -106,6 +132,9 @@ public class WinState extends state{
     @Override
     public void dispose() {
         background.dispose();
+        for (FallingObject obj : fallingObjects) {
+            obj.getTexture().dispose();
+        }
         font1.dispose();
         stage.dispose();
     }

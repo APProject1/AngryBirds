@@ -1,5 +1,4 @@
 package io.github.badlogic.AngryBirds.states;
-
 import com.badlogic.gdx.math.Vector2;
 import io.github.badlogic.AngryBirds.Elements.Bird;
 import io.github.badlogic.AngryBirds.Elements.RedBird;
@@ -8,12 +7,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import com.badlogic.gdx.physics.box2d.World;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SavedGamesStateTest{
+public class SavedGamesStateTest1 {
     private SavedGamesState SavedState;
     private GameStateManager gameStateManager;
     private World world;

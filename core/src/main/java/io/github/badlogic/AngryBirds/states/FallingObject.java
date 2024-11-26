@@ -6,8 +6,8 @@ public class FallingObject {
     private Texture texture;
     private float x, y, speed;
     public boolean isOnGround;
-    private static final float OBJECT_WIDTH = 50;  // Fixed width for all textures
-    private static final float OBJECT_HEIGHT = 50;
+    public float width;  // Fixed width for all textures
+    public float height;
     private float gravity = -9.8f; // Gravity constant
     private float bounceFactor = 0.5f;
     private float velocityY;
@@ -18,6 +18,8 @@ public class FallingObject {
         this.y = y;
         this.speed = speed;
         this.isOnGround = false;
+        width=70;
+        height=70;
         this.velocityY = 0;// Initially not on the ground
     }
 
@@ -39,7 +41,7 @@ public class FallingObject {
     }
 
     public void render(SpriteBatch sb) {
-        sb.draw(texture, x, y,OBJECT_WIDTH, OBJECT_HEIGHT);
+        sb.draw(texture, x, y,width, height);
     }
 
     public Texture getTexture() {
