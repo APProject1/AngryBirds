@@ -48,6 +48,49 @@ public class contact implements ContactListener {
                 pig.dispose(level);
             }
         }
+        else if (userDataB instanceof Block && userDataA instanceof Pig) {
+            Pig pig=(Pig) userDataA;
+            Block block=(Block) userDataB;
+            if (block.body.getLinearVelocity().len()>55){
+                pig.health-=1;
+                if (pig.health<=0){
+                    pig.dispose(level);
+                }
+            }
+        }
+        else if (userDataA instanceof Block && userDataB instanceof Pig) {
+            Pig pig=(Pig) userDataB;
+            Block block=(Block) userDataA;
+            if (block.body.getLinearVelocity().len()>55){
+                pig.health-=1;
+                if (pig.health<=0){
+                    pig.dispose(level);
+                }
+            }
+        }
+        else if (userDataA instanceof Block && userDataB instanceof Block) {
+            Block block1=(Block) userDataA;
+            Block block2=(Block) userDataB;
+            System.out.println("block 1 velocity: "+block1.body.getLinearVelocity());
+            System.out.println("block 2 velocity: "+block2.body.getLinearVelocity());
+            if (block1.body.getLinearVelocity().len()>55){
+                block2.health-=1;
+                if (block2.health<=0){
+                    block2.dispose(level);
+                }
+            }
+            if (block2.body.getLinearVelocity().len()>55){
+                block1.health-=1;
+                if (block1.health<=0){
+                    block1.dispose(level);
+                }
+            }
+
+//            block.health-= (int) (bird.body.getLinearVelocity().len()/110)+1;
+//            if (block.health<=0){
+//                block.dispose(level);
+//            }
+        }
 
     }
 
