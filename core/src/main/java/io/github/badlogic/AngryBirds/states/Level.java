@@ -20,19 +20,19 @@ public class Level extends state{
     private Texture background;
     public ArrayList<Block> toRemoveBlocks;
     public ArrayList<Pig> toRemovePigs;
-    private ArrayList<Bird> birds;
+    ArrayList<Bird> birds;
     int winTime;
     int loseTime;
-    private ArrayList<Pig> pigs;
+    ArrayList<Pig> pigs;
     public ArrayList<Block> blocks;
     private Texture pauseButtonTexture;
     private Rectangle pauseButton;
     private Texture slingleft;
     private Texture slingright;
-    private Vector2 slingCenter; // Center of the slingshot
-    private Vector2 slingPullPosition; // Current pull position
-    private boolean isDragging; // To track if dragging is happening
-    private float maxStretch = 100f; // Max distance for pulling the slingshot
+    private Vector2 slingCenter;
+    private Vector2 slingPullPosition;
+    private boolean isDragging;
+    private float maxStretch = 100f;
     private Bird activeBird;
     private Vector2 leftstartpos;
     private Vector2 rightstartpos;
@@ -46,7 +46,9 @@ public class Level extends state{
     //private int time;
 
 
-
+    public Level(GameStateManager gsm){
+        super(gsm);
+    }
     public Level(World world,GameStateManager gsm,int num,ArrayList<Bird> birds,ArrayList<Pig> pigs,ArrayList<Block> blocks,String texture) {
         super(gsm);
         toRemoveBlocks =new ArrayList<>();
@@ -175,16 +177,19 @@ public class Level extends state{
         }
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             if (flyingBird instanceof YellowBird && !((YellowBird) flyingBird).isActivated) {
-                YellowBird yellowBird = (YellowBird) flyingBird;
-                yellowBird.isActivated=true;
-                yellowBird.body.setLinearVelocity(new Vector2(250000000,0));
+                flyingBird.isActivated=true;
+                flyingBird.body.setLinearVelocity(new Vector2(1999900000*flyingBird.body.getLinearVelocity().x,0));
             }
             if (flyingBird instanceof BlackBird && !((BlackBird) flyingBird).isActivated) {
-                BlackBird blackBird = (BlackBird) flyingBird;
-                blackBird.isActivated=true;
-                blackBird.width=2*blackBird.width;
-                blackBird.height=2*blackBird.height;
-                blackBird.body.getFixtureList().get(0).getShape().setRadius(blackBird.width/2f);
+                flyingBird.isActivated=true;
+                flyingBird.width=2*flyingBird.width;
+                flyingBird.height=2*flyingBird.height;
+                flyingBird.body.getFixtureList().get(0).getShape().setRadius(flyingBird.width/2f);
+            }
+            if (flyingBird instanceof RedBird && !((RedBird) flyingBird).isActivated){
+                flyingBird.isActivated=true;
+                flyingBird.body.setLinearVelocity(new Vector2(0,-5));
+
             }
         }
 
@@ -388,7 +393,10 @@ public class Level extends state{
     }
     public void saveBirdPositions(String fileName, String timestamp) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))){
-            writer.write(timestamp +", "+ level +", "+ birds.size()+1);
+            if (flyingBird!=null){
+            writer.write(timestamp +", "+ level +", "+ ((Integer)(birds.size()+1)).toString());}
+            else{
+                writer.write(timestamp +", "+ level +", "+ birds.size());}
             writer.newLine();
 
             for (int i = 0; i < birds.size(); i++) {

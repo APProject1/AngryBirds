@@ -30,9 +30,7 @@ public class SavedGamesState extends state{
     public ArrayList<Pig> resetPigs;
     public ArrayList<Block> resetBlocks;
     public Bird flyingBird;
-    private String level1;
-    private String level2;
-    private String level3;
+
     //Level levelInstance;
 
     public SavedGamesState(GameStateManager gsm) {
@@ -115,7 +113,8 @@ public class SavedGamesState extends state{
                             Level levelInstance = new Level(world, gsm, level, resetBirds, resetPigs, resetBlocks,"level1bg.png");
                             //levelInstance.flyingBird=resetBirds.get(resetBirds.size()-1);
                             levelInstance.flyingBird=flyingBird;
-                            levelInstance.doneBirds.add(flyingBird);
+                            if (flyingBird!=null){
+                                levelInstance.doneBirds.add(flyingBird);}
                             gsm.set(levelInstance);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -128,7 +127,8 @@ public class SavedGamesState extends state{
                             Level levelInstance = new Level(world, gsm, level, resetBirds, resetPigs, resetBlocks,"level2bg.png");
                             //levelInstance.flyingBird=resetBirds.get(resetBirds.size()-1);
                             levelInstance.flyingBird=flyingBird;
-                            levelInstance.doneBirds.add(flyingBird);
+                            if (flyingBird!=null){
+                                levelInstance.doneBirds.add(flyingBird);}
                             gsm.set(levelInstance);
                         }catch (Exception e) {
                             e.printStackTrace();}
@@ -139,7 +139,8 @@ public class SavedGamesState extends state{
                             Level levelInstance = new Level(world, gsm, level, resetBirds, resetPigs, resetBlocks,"level2bg.png");
                             //levelInstance.flyingBird=resetBirds.get(resetBirds.size()-1);
                             levelInstance.flyingBird=flyingBird;
-                            levelInstance.doneBirds.add(flyingBird);
+                            if (flyingBird!=null){
+                            levelInstance.doneBirds.add(flyingBird);}
                             gsm.set(levelInstance);
                         }catch (Exception e) {
                             e.printStackTrace();
@@ -160,6 +161,7 @@ public class SavedGamesState extends state{
             int level;
             int n=0;
             resetBirds=new ArrayList<>();
+            flyingBird=null;
 
             while((line=reader.readLine()) != null) {
                 if (line.contains(selectedTimestamp)) {
@@ -199,6 +201,7 @@ public class SavedGamesState extends state{
                         float velY = Float.parseFloat(birdDetails[4].trim());
                         boolean isActivated=Boolean.parseBoolean(birdDetails[5].trim());
                         System.out.println("type: " + type + ", posX: " + posX + ", posY: " + posY + ", velX: " + velX + ", velY: " + velY);
+
                         if(type.equals("RedBird")){
                             flyingBird=new RedBird(world,posX,posY,velX,velY);
                         }
@@ -214,6 +217,7 @@ public class SavedGamesState extends state{
                             flyingBird=blackBird;
                         }
                     }
+
                     if(resetBirds.size() ==n) {
                         break;
                     }

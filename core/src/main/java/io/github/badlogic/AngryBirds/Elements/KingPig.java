@@ -15,6 +15,12 @@ public class KingPig extends Pig {
         width=70;
         type="KingPig";
     }
+    public KingPig(World world,float x, float y, float velX, float velY, int health, boolean isTest){
+        super(world,x,y,velX, velY,health,70);
+        height=85;
+        width=70;
+        type="KingPig";
+    }
     @Override
     public void takeDamage() {
     }

@@ -27,7 +27,7 @@ public class contact implements ContactListener {
         if (userDataA instanceof Bird && userDataB instanceof Block) {
             Block block=(Block) userDataB;
             Bird bird=(Bird) userDataA;
-            block.health-= (int) (bird.body.getLinearVelocity().len()/110)+1;
+            block.health-= (int) (bird.body.getLinearVelocity().len()/150)+1;
             birdCollide.play();
             if (block.health<=0){
                 block.dispose(level);
@@ -35,7 +35,7 @@ public class contact implements ContactListener {
         } else if (userDataA instanceof Block && userDataB instanceof Bird) {
             Block block=(Block) userDataA;
             Bird bird=(Bird) userDataB;
-            block.health-= (int) (bird.body.getLinearVelocity().len()/110)+1;
+            block.health-= (int) (bird.body.getLinearVelocity().len()/150)+1;
             birdCollide.play();
             if (block.health<=0){
                 block.dispose(level);

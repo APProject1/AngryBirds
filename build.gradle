@@ -9,7 +9,7 @@ buildscript {
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
   }
   dependencies {
-    //classpath "org.junit.platform:junit-platform-gradle-plugin:5.8.1"
+    // No changes needed here unless you want to use specific plugins
   }
 }
 
@@ -26,13 +26,15 @@ allprojects {
   }
 }
 
-
 configure(subprojects) {
   apply plugin: 'java-library'
-  sourceCompatibility = 11
+  sourceCompatibility = 8
 
-  // From https://lyze.dev/2021/04/29/libGDX-Internal-Assets-List/
-  // The article can be helpful when using assets.txt in your project.
+  // Add the JUnit 4 dependency for testing
+  dependencies {
+    testImplementation 'junit:junit:4.13.2' // JUnit 4 latest stable version
+  }
+
   tasks.register('generateAssetList') {
     inputs.dir("${project.rootDir}/assets/")
     // projectFolder/assets
@@ -54,7 +56,13 @@ configure(subprojects) {
   compileJava {
     options.incremental = true
   }
+
+  // JUnit 4 does not require any special configuration for test tasks
+  test {
+    // Default configuration is sufficient for JUnit 4
+  }
 }
+
 subprojects {
   version = '$projectVersion'
   ext.appName = 'AngryBirds'
@@ -66,15 +74,6 @@ subprojects {
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
     maven { url 'https://jitpack.io' }
-  }
-  dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'  // JUnit Jupiter API
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.1'  // JUnit Jupiter Engine
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'// JUnit Jupiter Params (for parameterized tests)
-    //compile 'junit:junit:5.8.1'
-  }
-  test {
-    useJUnitPlatform()  // Enable JUnit 5 platform
   }
 }
 

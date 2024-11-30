@@ -9,6 +9,12 @@ public class StoneBlock extends Block{
         this.height=height;
         type="StoneBlock";
     }
+    public StoneBlock(World world, float x, float y, int height, int width,int health, int level, boolean isTest) {
+        super(world,x,y,health,width,height,level);
+        this.width=width;
+        this.height=height;
+        type="StoneBlock";
+    }
     public StoneBlock(World world, float x, float y, int height, int width,int health, int level) {
         super(world,x,y,"stoneblock.png",health,width,height,level);
         this.width=width;
