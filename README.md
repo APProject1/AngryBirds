@@ -1,6 +1,6 @@
 Setup and Run Instructions
 - Prerequisites-
-1. Java Development Kit (JDK): JDK 22 is used in this project
+1. Java Development Kit (JDK): JDK 22 is used in this project.
 2. LibGDX Project Setup: The project should be structured according to LibGDX conventions and requires a Gradle build system.
 
 Run Configuration- 
